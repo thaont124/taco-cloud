@@ -2,7 +2,7 @@ package tacos.model;
 
 import lombok.Data;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 
 import lombok.NoArgsConstructor;
 import lombok.AccessLevel;

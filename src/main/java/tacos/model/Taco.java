@@ -1,7 +1,7 @@
 package tacos.model;
 import java.util.Date;
 import java.util.List;
-import javax.persistence.*;
+import jakarta.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import lombok.Data;
