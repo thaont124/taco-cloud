@@ -1,4 +1,4 @@
-package tacos;
+package tacos.model;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.*;
@@ -7,7 +7,6 @@ import javax.validation.constraints.Size;
 import lombok.Data;
 @Data
 @Entity
-@Table(name = "taco")
 public class Taco {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) //thết lập mã tự động tăng

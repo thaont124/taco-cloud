@@ -6,7 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import tacos.Ingredient;
+import tacos.model.Ingredient;
 import tacos.data.IngredientRepository;
 
 import javax.validation.Valid;
@@ -18,14 +18,10 @@ import java.util.Optional;
 @RequestMapping("/ingredients")
 public class IngredientController {
 
-    private final IngredientRepository ingredientRepository;
-
     @Autowired
-    public IngredientController(IngredientRepository ingredientRepository) {
-        this.ingredientRepository = ingredientRepository;
-    }
+    private IngredientRepository ingredientRepository;
 
-    // Hiển thị danh sách tất cả các thành phần Ingredient
+
     @GetMapping
     public String listIngredients(Model model) {
         List<Ingredient> ingredients = ingredientRepository.findAll();
@@ -37,7 +33,7 @@ public class IngredientController {
     @GetMapping("/add")
     public String addIngredientForm(Model model) {
         model.addAttribute("ingredient", new Ingredient());
-        return "add-ingredient";
+        return "addIngredient";
     }
 
     // Xử lý thêm mới một thành phần Ingredient
@@ -45,10 +41,10 @@ public class IngredientController {
     public String addIngredient(@ModelAttribute("ingredient") @Valid Ingredient ingredient,
                                 BindingResult result) {
         if (result.hasErrors()) {
-            return "add-ingredient";
+            return "addIngredient";
         }
         ingredientRepository.save(ingredient);
-        return "redirect:/ingredients";
+        return "redirect:/";
     }
 
     // Hiển thị form để sửa thông tin một thành phần Ingredient
@@ -59,7 +55,7 @@ public class IngredientController {
             model.addAttribute("ingredient", ingredient.get());
             return "edit-ingredient";
         } else {
-            return "redirect:/ingredients";
+            return "redirect:/";
         }
     }
 
@@ -73,9 +69,7 @@ public class IngredientController {
         }
         ingredient.setId(id);
         ingredientRepository.save(ingredient);
-        return "redirect:/ingredients";
+        return "redirect:/";
     }
 }
-
-// Xoá một thành phần Ingredient
 
