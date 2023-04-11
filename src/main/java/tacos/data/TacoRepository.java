@@ -5,6 +5,6 @@ import org.springframework.stereotype.Repository;
 import tacos.model.Taco;
 
 @Repository
-public interface TacoRepository extends JpaRepository<Taco, Long> {
+public interface TacoRepository extends JpaRepository<Taco, Integer> {
 
 }

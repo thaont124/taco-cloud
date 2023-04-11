@@ -13,6 +13,7 @@ import tacos.model.Taco;
 import tacos.data.IngredientRepository;
 import tacos.data.TacoRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 @Slf4j
 @Controller
@@ -25,9 +26,21 @@ public class DesignTacoController {
     @ModelAttribute
     public void addIngredientsToModel(Model model) {
         List<Ingredient> ingredients = ingredientRepo.findAll();
-        model.addAttribute("ingredients", ingredients);
-    }
+        Ingredient.Type[] types = Ingredient.Type.values();
+        for (Ingredient.Type type : types) {
+            model.addAttribute(type.toString().toLowerCase(),
+                    filterByType(ingredients, type));
 
+        }
+    }
+    private List<Ingredient> filterByType(List<Ingredient> ingredients, Ingredient.Type type) {
+        List<Ingredient> ingrList = new ArrayList<>();
+        for (Ingredient ingredient: ingredients) {
+            if (ingredient.getType().equals(type)) ingrList.add(ingredient);
+        }
+        return ingrList;
+
+    }
     @GetMapping
     public String showDesignForm(Model model) {
         model.addAttribute("taco", new Taco());

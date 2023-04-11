@@ -10,7 +10,7 @@ import lombok.Data;
 public class Taco {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) //thết lập mã tự động tăng
-    private Long id;
+    private int id;
     private Date createdAt;
 
     @NotNull
