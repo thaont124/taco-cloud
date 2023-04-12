@@ -6,5 +6,4 @@ import tacos.model.Ingredient;
 
 @Repository
 public interface IngredientRepository extends JpaRepository<Ingredient, String> {
-
 }

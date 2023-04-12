@@ -2,10 +2,12 @@ package tacos.web;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import tacos.model.Ingredient;
 import tacos.data.IngredientRepository;
 
@@ -26,7 +28,7 @@ public class IngredientController {
     public String listIngredients(Model model) {
         List<Ingredient> ingredients = ingredientRepository.findAll();
         model.addAttribute("ingredients", ingredients);
-        return "ingredients";
+        return "design";
     }
 
     // Hiển thị form để thêm mới một thành phần Ingredient
@@ -37,15 +39,18 @@ public class IngredientController {
     }
 
     // Xử lý thêm mới một thành phần Ingredient
+//    @PostMapping("/add")
+//    public ResponseEntity<?> addIngredient(@RequestBody Ingredient ingredient) {
+//        Ingredient newIngredient = ingredientRepository.save(ingredient);
+//        return ResponseEntity.ok().body(newIngredient);
+//    }
     @PostMapping("/add")
-    public String addIngredient(@ModelAttribute("ingredient") @Valid Ingredient ingredient,
-                                BindingResult result) {
-        if (result.hasErrors()) {
-            return "addIngredient";
-        }
+    public String addIngredient(@ModelAttribute Ingredient ingredient, Model model) {
         ingredientRepository.save(ingredient);
-        return "redirect:/";
+        model.addAttribute("message", "New ingredient added successfully!");
+        return "addIngredientSuccess";
     }
+
 
     // Hiển thị form để sửa thông tin một thành phần Ingredient
     @GetMapping("/edit/{id}")
