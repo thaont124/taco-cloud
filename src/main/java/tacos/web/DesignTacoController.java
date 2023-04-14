@@ -4,14 +4,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+import tacos.data.Taco_IngredientsRepository;
 import tacos.model.Ingredient;
 import tacos.model.Taco;
 import tacos.data.IngredientRepository;
 import tacos.data.TacoRepository;
+import tacos.model.Taco_Ingredients;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +22,8 @@ public class DesignTacoController {
     private IngredientRepository ingredientRepo;
     @Autowired
     private TacoRepository tacoRepo;
+    @Autowired
+    private Taco_IngredientsRepository taco_ingredientsRepo;
     @ModelAttribute
     public void addIngredientsToModel(Model model) {
         List<Ingredient> ingredients = ingredientRepo.findAll();
@@ -48,9 +49,18 @@ public class DesignTacoController {
     }
 
     @PostMapping
-    public String processDesign(Taco taco) {
-        // Save the taco design...
-        tacoRepo.save(taco);
+    public String processDesign(@ModelAttribute("taco") Taco taco,
+                                @RequestParam("ingredients") List<String> ingredientIds) {
+        Taco newTaco = tacoRepo.save(taco);
+        for (String ingrId : ingredientIds){
+            if (!taco_ingredientsRepo.exists(newTaco.getId(),ingrId)) {
+                Taco_Ingredients ta_in = new Taco_Ingredients();
+                ta_in.setTacoId(newTaco.getId());
+                ta_in.setIngredientId(ingrId);
+                taco_ingredientsRepo.save(ta_in);
+            }
+        }
+
         return "redirect:/orders/current";
     }
 

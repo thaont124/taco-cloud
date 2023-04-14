@@ -17,9 +17,9 @@ public class Taco {
     @Size(min=5, message="Name must be at least 5 characters long")
     private String name;
 
-    @ManyToMany(targetEntity=Ingredient.class) //thiết lập mqh n-n với bảng Ingredient
-    @Size(min=1, message="You must choose at least 1 ingredient")
-    private List<String> ingredients;
+//    @ManyToMany(targetEntity=Ingredient.class) //thiết lập mqh n-n với bảng Ingredient
+//    @Size(min=1, message="You must choose at least 1 ingredient")
+//    private List<String> ingredients;
 
     @PrePersist //thiết lập giá trị cho trường createdAt trước khi lưu thông tin của đối tượng
     void createdAt() {
