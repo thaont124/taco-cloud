@@ -14,7 +14,8 @@ public class Taco_Order {
     private int id;
 
     @NotNull
-    private int orderId;
+    @Column(name = "order_id")
+    private Long orderId;
 
     @NotNull
     private int tacoId;
