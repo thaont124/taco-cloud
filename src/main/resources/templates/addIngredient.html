@@ -1,40 +1,74 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
+<html >
 <head>
     <title>Taco Cloud</title>
-    <link rel="stylesheet" th:href="@{/styles.css}"/>
+    
 </head>
 <body>
-<form method="POST" th:action="@{/ingredients/add}" th:object="${ingredient}">
+<div>
     <h1>Add a new Ingredient!</h1>
     <h3>Input the ingredient information ...</h3>
-    <table border="0" cellspacing="5">
+    <table border="0" cellspacing="5" id="oke">
         <tr>
             <td align="right"><label for="id">ID: </label></td>
-            <td align="right"><input th:field="*{id}" type="text"/></td>
+            <td align="right"><input id="id" type="text"/></td>
         </tr>
         <tr>
             <td align="right"><label for="name">Name: </label></td>
-            <td align="right"><input th:field="*{name}" type="text"/></td>
+            <td align="right"><input id="name"type="text"/></td>
         </tr>
         <tr>
             <td align="right"><label for="type">Type: </label></td>
             <td align="left">
-                <select th:field="*{type}">
-                    <option th:text="WRAP" th:value="'WRAP'"></option>
-                    <option th:text="PROTEIN" th:value="'PROTEIN'"></option>
-                    <option th:text="VEGGIES" th:value="VEGGIES"></option>
-                    <option th:text="CHEESE" th:value="'CHEESE'"></option>
-                    <option th:text="SAUCE" th:value="'SAUCE'"></option>
+                <select id="selectType">
+                    <option value="WRAP">WRAP</option>
+                    <option  value="PROTEIN">PROTEIN</option>
+                    <option  value="VEGGIES">VEGGIES</option>
+                    <option value="CHEESE">CHEESE</option>
+                    <option value="SAUCE">SAUCE</option>
                 </select>
             </td>
         </tr>
         <tr>
             <td></td>
-            <td><br><input type="submit" value="Submit"></td>
+            <td><br><input type="submit" value="Submit" onclick="ok()"></td>
         </tr>
     </table>
-</form>
+</div>
+<script>
+		function ok(){	
+			const xhttp = new XMLHttpRequest();
+			var guidi={
+				    "id":document.getElementById('id').value,
+				    "name":document.getElementById('name').value,
+				    "type":document.getElementById('selectType').value
+			}
+			var guididangjson =JSON.stringify(guidi);
+	        //nhận dự liệu về (http response)
+	        xhttp.onload = function() 
+	        {
+	            //lấy dữ liệu dạng json
+	            var ResponseJson=xhttp.responseText
+	            //chuyển về dữ liệU javascript
+	            var Response= JSON.parse(ResponseJson)
+	            if(xhttp.status==200)
+	            {
+	               alert("thanh cong");
+	                
+	            }
+	            else
+	            {
+	               
+	            }
+	        }         
+			//khai báo phương thức và đường dẫn để request
+			xhttp.open("POST", "/ApiV1/Ingredient",false);
+			//định dạng gửi đi787
+			xhttp.setRequestHeader("Content-type","application/json")
+			//gửi
+			xhttp.send(guididangjson);
+		}
+	
+</script>
 </body>
 </html>
